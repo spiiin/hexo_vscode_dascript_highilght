@@ -6,6 +6,9 @@ SOURCE_PATH = os.path.join(BASE_PATH, "source/_posts/")
 OUT_PATH_TEMPLATE = os.path.join(BASE_PATH, "public/blog/%s/index.html")
 CACHE_NAME = "highlights_hashes.txt"
 
+REGENERATE_ALWAYS_LIST = [
+]
+
 PROCESS_FNAMES = [
 	"230919-dascript-bgfx-wbiot.md",
 	"230905-dascript-bindings-tricks.md",
@@ -33,7 +36,10 @@ PROCESS_FNAMES = [
 	"231014-vm.md",
 	"231016-dascript-examples.md",
 	"230112-dascript-oop.md",
-	"230121-dascript-generics.md"
+	"230121-dascript-generics.md",
+	"240222-dascript-cpp-connect.md",
+	"240330-dascript-macro3.md",
+	"240403-dascript-bindings-2.md"
 ]
 
 url = "http://localhost:3000" #address of server
@@ -97,7 +103,7 @@ def main():
 
 		for snippet, snippet_hash in zip(snippets, hashes):
 			print(f"Request: {snippet_hash}")
-			if snippet_hash not in highlight_html:
+			if snippet_hash not in highlight_html or process_fname in REGENERATE_ALWAYS_LIST:
 				js = json.loads(request_to_vs_code(snippet))
 				highlight_html[snippet_hash] = js["message"]
 				time.sleep(0.5)
